@@ -16,6 +16,7 @@
 --green:#16a34a;
 --red:#dc2626;
 --orange:#ea580c;
+--purple:#7c3aed;
 --gray:#64748b;
 --light:#f8fafc;
 --border:#e2e8f0;
@@ -29,10 +30,7 @@ color:var(--navy);
 min-height:100vh;
 }
 
-button{
-font:inherit;
-cursor:pointer;
-}
+button{font:inherit;cursor:pointer}
 
 header{
 background:white;
@@ -56,9 +54,7 @@ font-size:25px;
 font-weight:800;
 }
 
-.logo span{
-color:var(--blue);
-}
+.logo span{color:var(--blue)}
 
 .tag{
 font-size:12px;
@@ -86,9 +82,7 @@ line-height:1.03;
 letter-spacing:-2px;
 }
 
-.hero h1 span{
-color:var(--blue);
-}
+.hero h1 span{color:var(--blue)}
 
 .hero p{
 max-width:680px;
@@ -109,9 +103,7 @@ font-weight:700;
 box-shadow:0 8px 20px rgba(37,99,235,.2);
 }
 
-.primary:hover{
-background:var(--blue-dark);
-}
+.primary:hover{background:var(--blue-dark)}
 
 .secondary{
 background:white;
@@ -119,6 +111,15 @@ border:1px solid var(--border);
 padding:11px 17px;
 border-radius:10px;
 font-weight:600;
+}
+
+.danger{
+background:#fee2e2;
+color:#991b1b;
+border:1px solid #fecaca;
+padding:11px 17px;
+border-radius:10px;
+font-weight:700;
 }
 
 .features{
@@ -135,26 +136,16 @@ border-radius:18px;
 padding:24px;
 }
 
-.feature-icon{
-font-size:35px;
-}
+.feature-icon{font-size:35px}
 
-.feature h3{
-margin:10px 0 7px;
-}
+.feature h3{margin:10px 0 7px}
 
 .feature p,.muted{
 color:var(--gray);
 line-height:1.55;
 }
 
-#app{
-display:none;
-}
-
-.card{
-margin-bottom:20px;
-}
+#app{display:none}
 
 .upload{
 border:2px dashed #93c5fd;
@@ -163,20 +154,17 @@ border-radius:16px;
 padding:40px 20px;
 text-align:center;
 cursor:pointer;
+display:block;
 }
 
-.upload:hover{
-background:#dbeafe;
-}
+.upload:hover{background:#dbeafe}
 
 .upload-icon{
 font-size:48px;
 margin-bottom:10px;
 }
 
-input[type=file]{
-display:none;
-}
+input[type=file]{display:none}
 
 .scan-status{
 display:none;
@@ -200,9 +188,7 @@ background:var(--blue);
 transition:.2s;
 }
 
-.results{
-display:none;
-}
+.results{display:none}
 
 .summary{
 display:grid;
@@ -228,17 +214,10 @@ color:var(--gray);
 margin-top:4px;
 }
 
-.green{
-color:var(--green);
-}
-
-.red{
-color:var(--red);
-}
-
-.orange{
-color:var(--orange);
-}
+.green{color:var(--green)}
+.red{color:var(--red)}
+.orange{color:var(--orange)}
+.purple{color:var(--purple)}
 
 .result-grid{
 display:grid;
@@ -254,9 +233,7 @@ border-radius:16px;
 padding:20px;
 }
 
-.result-card h3{
-margin-bottom:6px;
-}
+.result-card h3{margin-bottom:6px}
 
 .result-number{
 font-size:27px;
@@ -264,9 +241,7 @@ font-weight:800;
 margin:12px 0 5px;
 }
 
-.file-list{
-margin-top:15px;
-}
+.file-list{margin-top:15px}
 
 .file-row{
 display:flex;
@@ -274,6 +249,13 @@ align-items:center;
 gap:12px;
 padding:13px 0;
 border-bottom:1px solid var(--border);
+}
+
+.file-check{
+width:20px;
+height:20px;
+accent-color:var(--blue);
+flex:none;
 }
 
 .file-info{
@@ -290,15 +272,6 @@ overflow-wrap:anywhere;
 font-size:13px;
 color:var(--gray);
 margin-top:3px;
-}
-
-.remove{
-border:0;
-background:#fee2e2;
-color:var(--red);
-padding:7px 10px;
-border-radius:8px;
-font-weight:600;
 }
 
 .notice{
@@ -321,8 +294,43 @@ margin-top:15px;
 line-height:1.5;
 }
 
-.hidden{
-display:none!important;
+.clean-panel{
+background:#eff6ff;
+border:1px solid #bfdbfe;
+border-radius:16px;
+padding:22px;
+margin-top:20px;
+}
+
+.clean-total{
+font-size:34px;
+font-weight:800;
+color:var(--blue);
+margin:8px 0;
+}
+
+.clean-actions{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:16px;
+}
+
+.review-box{
+display:none;
+margin-top:20px;
+background:white;
+border:2px solid #93c5fd;
+border-radius:16px;
+padding:22px;
+}
+
+.review-item{
+padding:12px 0;
+border-bottom:1px solid var(--border);
+display:flex;
+justify-content:space-between;
+gap:15px;
 }
 
 .empty{
@@ -343,13 +351,9 @@ font-size:13px;
 grid-template-columns:1fr;
 }
 
-.hero h1{
-font-size:43px;
-}
+.hero h1{font-size:43px}
 
-main{
-padding:20px 14px 60px;
-}
+main{padding:20px 14px 60px}
 }
 </style>
 </head>
@@ -368,7 +372,9 @@ padding:20px 14px 60px;
 <section id="home">
 
 <div class="hero">
-<h1>Your files are full.<br><span>Let's figure out why.</span></h1>
+
+<h1>Your files are full.<br>
+<span>Let's figure out why.</span></h1>
 
 <p>
 ClearSpace analyzes files you choose and helps you find duplicates,
@@ -378,6 +384,7 @@ large files and possible screenshots so you can decide what deserves your space.
 <button class="primary" onclick="openApp()">
 SCAN MY FILES
 </button>
+
 </div>
 
 <div class="features">
@@ -412,12 +419,12 @@ SCAN MY FILES
 <h2>🔎 Scan your files</h2>
 
 <p class="muted" style="margin:8px 0 20px">
-Choose photos, videos, documents or other files from your device.
+Choose photos, videos, documents or other files from your computer.
 </p>
 
 <div class="notice">
 <strong>🔐 Your files stay on your device.</strong><br>
-This version analyzes your selected files inside your browser.
+This version analyzes selected files inside your browser.
 ClearSpace does not upload them to a ClearSpace server.
 </div>
 
@@ -428,7 +435,7 @@ ClearSpace does not upload them to a ClearSpace server.
 <strong>Choose files to scan</strong>
 
 <p class="muted" style="margin-top:7px">
-Tap here and select multiple files
+Click here and select multiple files
 </p>
 
 </label>
@@ -459,13 +466,14 @@ onchange="beginScan(this.files)"
 
 <div class="card">
 
-<h2>Your ClearSpace report</h2>
+<h2>📊 Your ClearSpace report</h2>
 
 <p class="muted" style="margin-top:6px">
 Here's what we found in the files you selected.
 </p>
 
 </div>
+
 
 <div class="summary">
 
@@ -494,6 +502,7 @@ Here's what we found in the files you selected.
 
 <div class="result-grid">
 
+
 <div class="result-card">
 
 <h3>♻️ Exact duplicates</h3>
@@ -503,7 +512,7 @@ Here's what we found in the files you selected.
 </div>
 
 <p class="muted">
-Files with identical contents.
+Choose duplicates you want to review.
 </p>
 
 <div id="duplicatesList" class="file-list"></div>
@@ -532,7 +541,7 @@ Files larger than 500 MB.
 
 <h3>📱 Possible screenshots</h3>
 
-<div class="result-number" id="screenshotCount">
+<div class="result-number purple" id="screenshotCount">
 0
 </div>
 
@@ -556,18 +565,81 @@ Files whose names look like screenshots.
 </div>
 
 
-<div class="card" style="margin-top:20px">
+<div class="clean-panel">
 
-<h2>What should you do?</h2>
+<h2>🧹 Review & Clean</h2>
 
-<p class="muted" style="margin-top:8px">
-ClearSpace only identifies possible clutter. You decide what happens next.
+<p class="muted" style="margin-top:6px">
+Select files you believe are safe to remove.
+ClearSpace will show you exactly what you've selected before anything happens.
 </p>
 
-<div class="warning">
-<strong>Important:</strong> A website cannot silently delete files from your
-device. This prototype gives you information so you can review the files safely.
+<div class="clean-total" id="selectedSize">
+0 B
 </div>
+
+<div class="muted">
+potential space selected for cleanup
+</div>
+
+<div class="clean-actions">
+
+<button class="primary" onclick="reviewSelected()">
+REVIEW SELECTED FILES
+</button>
+
+<button class="secondary" onclick="selectAllDuplicates()">
+SELECT DUPLICATES
+</button>
+
+<button class="secondary" onclick="clearSelections()">
+CLEAR SELECTION
+</button>
+
+</div>
+
+<div id="reviewBox" class="review-box">
+
+<h3>🔎 Final review</h3>
+
+<p class="muted" style="margin:8px 0 15px">
+These are the files you've selected for cleanup.
+</p>
+
+<div id="reviewItems"></div>
+
+<div class="warning">
+<strong>Your files have NOT been deleted.</strong><br>
+This free web version cannot silently remove files from your computer.
+Review the list above, then use your computer's normal file tools to remove
+anything you no longer want.
+</div>
+
+<div class="clean-actions">
+
+<button class="secondary" onclick="downloadCleanupList()">
+DOWNLOAD CLEANUP LIST
+</button>
+
+<button class="secondary" onclick="closeReview()">
+CLOSE REVIEW
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card" style="margin-top:20px">
+
+<h2>🔐 Your memories belong to you</h2>
+
+<p class="muted" style="margin-top:8px">
+ClearSpace is designed to help you understand your storage before you
+make a decision. Nothing is automatically deleted.
+</p>
 
 <button class="secondary" style="margin-top:18px" onclick="resetScan()">
 SCAN DIFFERENT FILES
@@ -589,6 +661,10 @@ ClearSpace © 2026 · Your files, your decision.
 <script>
 
 let currentFiles=[];
+let duplicateFiles=[];
+let largeFiles=[];
+let screenshotFiles=[];
+
 
 function openApp(){
 
@@ -612,6 +688,10 @@ return;
 
 currentFiles=Array.from(fileList);
 
+duplicateFiles=[];
+largeFiles=[];
+screenshotFiles=[];
+
 document.getElementById("results").style.display="none";
 
 document.getElementById("scanStatus").style.display="block";
@@ -619,9 +699,7 @@ document.getElementById("scanStatus").style.display="block";
 let progress=0;
 
 const bar=document.getElementById("progressBar");
-
 const text=document.getElementById("progressText");
-
 const status=document.getElementById("statusText");
 
 const messages=[
@@ -643,7 +721,8 @@ bar.style.width=progress+"%";
 
 text.textContent=progress+"%";
 
-status.textContent=messages[Math.min(step,messages.length-1)];
+status.textContent=
+messages[Math.min(step,messages.length-1)];
 
 step++;
 
@@ -676,24 +755,33 @@ behavior:"smooth"
 
 document.getElementById("totalFiles").textContent=files.length;
 
-let total=files.reduce((sum,file)=>sum+file.size,0);
+let total=files.reduce(
+(sum,file)=>sum+file.size,
+0
+);
 
-document.getElementById("totalSize").textContent=formatBytes(total);
+document.getElementById("totalSize").textContent=
+formatBytes(total);
+
 
 const duplicateGroups=await findDuplicates(files);
 
-let duplicateFiles=[];
+duplicateFiles=[];
 
 duplicateGroups.forEach(group=>{
 
 for(let i=1;i<group.length;i++){
+
 duplicateFiles.push(group[i]);
+
 }
 
 });
 
+
 let duplicateBytes=duplicateFiles.reduce(
-(sum,file)=>sum+file.size,0
+(sum,file)=>sum+file.size,
+0
 );
 
 document.getElementById("duplicateCount").textContent=
@@ -706,7 +794,7 @@ document.getElementById("recoverable").textContent=
 formatBytes(duplicateBytes);
 
 
-const largeFiles=files.filter(
+largeFiles=files.filter(
 file=>file.size>=500*1024*1024
 );
 
@@ -714,7 +802,7 @@ document.getElementById("largeCount").textContent=
 largeFiles.length;
 
 
-const screenshotFiles=files.filter(file=>
+screenshotFiles=files.filter(file=>
 /screenshot|screen.?shot|capture|snap/i.test(file.name)
 );
 
@@ -722,25 +810,27 @@ document.getElementById("screenshotCount").textContent=
 screenshotFiles.length;
 
 
-renderList(
+renderSelectableList(
 "duplicatesList",
 duplicateFiles,
 "duplicate"
 );
 
-renderList(
+renderSelectableList(
 "largeList",
 largeFiles,
 "large"
 );
 
-renderList(
+renderSelectableList(
 "screenshotList",
 screenshotFiles,
 "screenshot"
 );
 
 renderTypes(files);
+
+updateSelectedSize();
 
 }
 
@@ -789,7 +879,11 @@ new Uint8Array(digest)
 .map(b=>b.toString(16).padStart(2,"0"))
 .join("");
 
-if(!hashes.some(item=>item.hash===hash)){
+let existing=hashes.find(
+item=>item.hash===hash
+);
+
+if(!existing){
 
 hashes.push({
 hash:hash,
@@ -798,15 +892,13 @@ files:[file]
 
 }else{
 
-hashes.find(
-item=>item.hash===hash
-).files.push(file);
+existing.files.push(file);
 
 }
 
 }catch(error){
 
-// If hashing fails, skip the file safely.
+console.log("Could not hash file:",file.name);
 
 }
 
@@ -815,7 +907,9 @@ item=>item.hash===hash
 hashes.forEach(item=>{
 
 if(item.files.length>1){
+
 exact.push(item.files);
+
 }
 
 });
@@ -827,7 +921,11 @@ return exact;
 }
 
 
-function renderList(elementId,files,type){
+function renderSelectableList(
+elementId,
+files,
+type
+){
 
 const container=document.getElementById(elementId);
 
@@ -842,11 +940,30 @@ return;
 
 }
 
-files.slice(0,20).forEach(file=>{
+files.forEach((file,index)=>{
 
 const row=document.createElement("div");
 
 row.className="file-row";
+
+const checkbox=document.createElement("input");
+
+checkbox.type="checkbox";
+
+checkbox.className="file-check";
+
+checkbox.dataset.type=type;
+
+checkbox.dataset.index=index;
+
+checkbox.dataset.name=file.name;
+
+checkbox.dataset.size=file.size;
+
+checkbox.addEventListener(
+"change",
+updateSelectedSize
+);
 
 const info=document.createElement("div");
 
@@ -863,11 +980,15 @@ const meta=document.createElement("div");
 meta.className="file-meta";
 
 meta.textContent=
-formatBytes(file.size)+" · "+(file.type||"Unknown type");
+formatBytes(file.size)+
+" · "+
+(file.type||"Unknown type");
 
 info.appendChild(name);
 
 info.appendChild(meta);
+
+row.appendChild(checkbox);
 
 row.appendChild(info);
 
@@ -875,20 +996,238 @@ container.appendChild(row);
 
 });
 
-if(files.length>20){
+}
 
-const more=document.createElement("div");
 
-more.className="muted";
+function getAllCheckboxes(){
 
-more.style.marginTop="12px";
-
-more.textContent=
-"+"+(files.length-20)+" more files";
-
-container.appendChild(more);
+return Array.from(
+document.querySelectorAll(".file-check")
+);
 
 }
+
+
+function getSelectedFiles(){
+
+const selected=[];
+
+getAllCheckboxes().forEach(box=>{
+
+if(box.checked){
+
+let file=null;
+
+if(box.dataset.type==="duplicate"){
+file=duplicateFiles[
+Number(box.dataset.index)
+];
+}
+
+if(box.dataset.type==="large"){
+file=largeFiles[
+Number(box.dataset.index)
+];
+}
+
+if(box.dataset.type==="screenshot"){
+file=screenshotFiles[
+Number(box.dataset.index)
+];
+}
+
+if(file && !selected.includes(file)){
+selected.push(file);
+}
+
+}
+
+});
+
+return selected;
+
+}
+
+
+function updateSelectedSize(){
+
+const selected=getSelectedFiles();
+
+const total=selected.reduce(
+(sum,file)=>sum+file.size,
+0
+);
+
+document.getElementById("selectedSize").textContent=
+formatBytes(total);
+
+}
+
+
+function selectAllDuplicates(){
+
+clearSelections();
+
+document
+.querySelectorAll(
+'#duplicatesList .file-check'
+)
+.forEach(box=>{
+box.checked=true;
+});
+
+updateSelectedSize();
+
+}
+
+
+function clearSelections(){
+
+getAllCheckboxes().forEach(
+box=>box.checked=false
+);
+
+document.getElementById("reviewBox").style.display="none";
+
+updateSelectedSize();
+
+}
+
+
+function reviewSelected(){
+
+const selected=getSelectedFiles();
+
+const reviewBox=
+document.getElementById("reviewBox");
+
+const reviewItems=
+document.getElementById("reviewItems");
+
+reviewItems.innerHTML="";
+
+if(!selected.length){
+
+reviewItems.innerHTML=
+'<div class="empty">No files selected yet. Choose files above first.</div>';
+
+reviewBox.style.display="block";
+
+return;
+
+}
+
+selected.forEach(file=>{
+
+const row=document.createElement("div");
+
+row.className="review-item";
+
+const name=document.createElement("div");
+
+name.innerHTML=
+"<strong>"+
+escapeHtml(file.name)+
+"</strong><br>"+
+"<span class='muted'>"+
+escapeHtml(file.type||"Unknown type")+
+"</span>";
+
+const size=document.createElement("strong");
+
+size.textContent=formatBytes(file.size);
+
+row.appendChild(name);
+
+row.appendChild(size);
+
+reviewItems.appendChild(row);
+
+});
+
+reviewBox.style.display="block";
+
+reviewBox.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+}
+
+
+function downloadCleanupList(){
+
+const selected=getSelectedFiles();
+
+if(!selected.length){
+
+alert("Please select files first.");
+
+return;
+
+}
+
+let text="ClearSpace Cleanup List\n";
+
+text+="========================\n\n";
+
+text+="Files selected: "+
+selected.length+
+"\n";
+
+text+="Potential space: "+
+formatBytes(
+selected.reduce(
+(sum,file)=>sum+file.size,
+0
+)
+)+
+"\n\n";
+
+selected.forEach((file,index)=>{
+
+text+=
+(index+1)+
+". "+
+file.name+
+" — "+
+formatBytes(file.size)+
+"\n";
+
+});
+
+text+=
+"\nClearSpace did not delete these files.\n";
+
+const blob=new Blob(
+[text],
+{type:"text/plain"}
+);
+
+const url=URL.createObjectURL(blob);
+
+const link=document.createElement("a");
+
+link.href=url;
+
+link.download="ClearSpace-cleanup-list.txt";
+
+document.body.appendChild(link);
+
+link.click();
+
+link.remove();
+
+URL.revokeObjectURL(url);
+
+}
+
+
+function closeReview(){
+
+document.getElementById(
+"reviewBox"
+).style.display="none";
 
 }
 
@@ -927,7 +1266,8 @@ counts[label]=(counts[label]||0)+1;
 
 });
 
-const container=document.getElementById("typesList");
+const container=
+document.getElementById("typesList");
 
 container.innerHTML="";
 
@@ -946,7 +1286,9 @@ row.innerHTML=
 escapeHtml(type)+
 "</div>"+
 "<div class='file-meta'>"+
-count+" file"+(count===1?"":"s")+
+count+
+" file"+
+(count===1?"":"s")+
 "</div>"+
 "</div>";
 
@@ -961,9 +1303,17 @@ function resetScan(){
 
 document.getElementById("results").style.display="none";
 
+document.getElementById("reviewBox").style.display="none";
+
 document.getElementById("fileInput").value="";
 
 currentFiles=[];
+
+duplicateFiles=[];
+
+largeFiles=[];
+
+screenshotFiles=[];
 
 window.scrollTo({
 top:0,
