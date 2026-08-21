@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f172a">
+<title>ClearSpace — Your phone is full. We'll figure out why.</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --navy: #0f172a;
+  --blue: #2563eb;
+  --blue-light: #eff6ff;
+  --green: #16a34a;
+  --green-light: #f0fdf4;
+  --gray: #64748b;
+  --light: #f8fafc;
+  --border: #e2e8f0;
+  --white: #ffffff;
+  --danger: #dc2626;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--light);
+  color: var(--navy);
+  min-height: 100vh;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+header {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 24px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.logo span {
+  color: var(--blue);
+}
+
+.badge {
+  font-size: 12px;
+  background: #fef3c7;
+  color: #92400e;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-weight: 700;
+}
+
+main {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px 100px;
+}
+
+.hero {
+  text-align: center;
+  padding: 35px 10px;
+}
+
+.hero h1 {
+  font-size: clamp(36px, 7vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin-bottom: 18px;
+}
+
+.hero h1 span {
+  color: var(--blue);
+}
+
+.hero p {
+  max-width: 650px;
+  margin: auto;
+  color: var(--gray);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.primary-btn {
+  display: inline-block;
+  margin-top: 28px;
+  background: var(--blue);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 28px;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(37,99,235,.2);
+}
+
+.primary-btn:hover {
+  background: #1d4ed8;
+}
+
+.secondary-btn {
+  background: white;
+  color: var(--navy);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-weight: 600;
+}
+
+.dashboard {
+  display: none;
+}
+
+.card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(15,23,42,.04);
+}
+
+.storage-card {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 28px;
+  align-items: center;
+}
+
+.storage-circle {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: conic-gradient(var(--blue) 0 58%, #e2e8f0 58% 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.storage-circle-inner {
+  width: 125px;
+  height: 125px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.storage-number {
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.storage-label {
+  font-size: 12px;
+  color: var(--gray);
+}
+
+h2 {
+  margin-bottom: 8px;
+}
+
+.muted {
+  color: var(--gray);
+}
+
+.savings {
+  color: var(--green);
+  font-size: 28px;
+  font-weight: 800;
+  margin: 10px 0;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.category {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.category:hover {
+  border-color: var(--blue);
+  transform: translateY(-2px);
+}
+
+.category-icon {
+  font-size: 28px;
+}
+
+.category-name {
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+.category-size {
+  color: var(--gray);
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.category-save {
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+.scan-box {
+  text-align: center;
+  padding: 45px 20px;
+}
+
+.progress {
+  max-width: 500px;
+  height: 12px;
+  background: #e2e8f0;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 25px auto 12px;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--blue);
+  transition: width .3s;
+}
+
+.results {
+  display: none;
+}
+
+.file-input {
+  display: none;
+}
+
+.upload-zone {
+  border: 2px dashed #93c5fd;
+  background: var(--blue-light);
+  border-radius: 16px;
+  padding: 40px 20px;
+  text-align: center;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.upload-zone:hover {
+  background: #dbeafe;
+}
+
+.upload-icon {
+  font-size: 45px;
+  margin-bottom: 10px;
+}
+
+.file-list {
+  margin-top: 20px;
+}
+
+.file-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 15px;
+}
+
+.file-info {
+  flex: 1;
+}
+
+.file-name {
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.file-meta {
+  color: var(--gray);
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+.delete-btn {
+  border: none;
+  background: #fee2e2;
+  color: var(--danger);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 35px;
+}
+
+.feature {
+  background: white;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.feature h3 {
+  margin: 10px 0 7px;
+}
+
+.feature p {
+  color: var(--gray);
+  line-height: 1.5;
+}
+
+.price-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 25px;
+}
+
+.price-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 25px;
+}
+
+.price-card.featured {
+  border: 2px solid var(--blue);
+}
+
+.price {
+  font-size: 34px;
+  font-weight: 800;
+  margin: 12px 0;
+}
+
+.price-card ul {
+  list-style: none;
+  margin: 18px 0;
+}
+
+.price-card li {
+  margin: 9px 0;
+  color: var(--gray);
+}
+
+nav {
+  display: none;
+}
+
+.toast {
+  position: fixed;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--navy);
+  color: white;
+  padding: 14px 20px;
+  border-radius: 10px;
+  display: none;
+  z-index: 100;
+}
+
+@media(max-width: 700px) {
+  main {
+    padding: 25px 14px 100px;
+  }
+
+  .storage-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .storage-circle {
+    margin: auto;
+  }
+
+  .category-grid,
+  .feature-grid,
+  .price-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero h1 {
+    font-size: 42px;
+  }
+
+  nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid var(--border);
+    z-index: 20;
+    justify-content: space-around;
+    padding: 10px 5px;
+  }
+
+  nav button {
+    background: none;
+    border: none;
+    color: var(--gray);
+    font-size: 12px;
+  }
+
+  nav button.active {
+    color: var(--blue);
+    font-weight: 700;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">Clear<span>Space</span></div>
+    <div class="badge">FREE MVP</div>
+  </div>
+</header>
+
+<main>
+
+<section id="home">
+
+  <div class="hero">
+    <h1>Your phone is full.<br><span>We'll figure out why.</span></h1>
+
+    <p>
+      ClearSpace finds duplicates, giant files, screenshots and digital clutter
+      so you can reclaim space without accidentally deleting the memories that matter.
+    </p>
+
+    <button class="primary-btn" onclick="startScan()">
+      SCAN MY FILES
+    </button>
+
+    <div class="feature-grid">
+
+      <div class="feature">
+        <div style="font-size:35px">🔍</div>
+        <h3>Find the clutter</h3>
+        <p>Discover large files, duplicates and other things taking up space.</p>
+      </div>
+
+      <div class="feature">
+        <div style="font-size:35px">🛡️</div>
+        <h3>You stay in control</h3>
+        <p>ClearSpace never automatically deletes your important files.</p>
+      </div>
+
+      <div class="feature">
+        <div style="font-size:35px">🚫</div>
+        <h3>No annoying ads</h3>
+        <p>A clean experience without ads constantly getting in your way.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<section id="dashboard" class="dashboard">
+
+  <div class="card storage-card">
+
+    <div class="storage-circle">
+      <div class="storage-circle-inner">
+        <div class="storage-number" id="storageUsed">58%</div>
+        <div class="storage-label">sample used</div>
+      </div>
+    </div>
+
+    <div>
+      <h2>Your storage</h2>
+      <p class="muted">Based on your selected files</p>
+
+      <div class="savings" id="savings">
+        0 GB
+      </div>
+
+      <p class="muted">
+        potential space you could recover
+      </p>
+
+      <button class="primary-btn" onclick="document.getElementById('upload').click()">
+        ANALYZE MORE FILES
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>Biggest opportunities</h2>
+
+    <p class="muted">
+      Choose a category to review what is taking up space.
+    </p>
+
+    <div class="category-grid">
+
+      <div class="category" onclick="showFiles('Duplicates')">
+        <div class="category-icon">📸</div>
+        <div class="category-name">Duplicates</div>
+        <div class="category-size">1,284 files</div>
+        <div class="category-save">Save up to 8.1 GB</div>
+      </div>
+
+      <div class="category" onclick="showFiles('Screenshots')">
+        <div class="category-icon">📱</div>
+        <div class="category-name">Screenshots</div>
+        <div class="category-size">3,821 files</div>
+        <div class="category-save">Save up to 9 GB</div>
+      </div>
+
+      <div class="category" onclick="showFiles('Large Videos')">
+        <div class="category-icon">🎥</div>
+        <div class="category-name">Large videos</div>
+        <div class="category-size">38 files</div>
+        <div class="category-save">Save up to 31 GB</div>
+      </div>
+
+      <div class="category" onclick="showFiles('Downloads')">
+        <div class="category-icon">📥</div>
+        <div class="category-name">Downloads</div>
+        <div class="category-size">693 files</div>
+        <div class="category-save">Save up to 4 GB</div>
+      </div>
+
+      <div class="category" onclick="showFiles('Documents')">
+        <div class="category-icon">📄</div>
+        <div class="category-name">Documents</div>
+        <div class="category-size">417 files</div>
+        <div class="category-save">Save up to 2 GB</div>
+      </div>
+
+      <div class="category" onclick="showFiles('Similar Photos')">
+        <div class="category-icon">🖼️</div>
+        <div class="category-name">Similar photos</div>
+        <div class="category-size">642 groups</div>
+        <div class="category-save">Review & choose</div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>Try the real file analyzer</h2>
+
+    <p class="muted">
+      Select files from your device. ClearSpace analyzes them in your browser.
+      Your files are not uploaded to a ClearSpace server by this demo.
+    </p>
+
+    <label class="upload-zone" for="upload">
+
+      <div class="upload-icon">☁️</div>
+
+      <strong>Choose files to analyze</strong>
+
+      <p class="muted" style="margin-top:7px">
+        Photos, videos, documents and other files
+      </p>
+
+    </label>
+
+    <input
+      id="upload"
+      class="file-input"
+      type="file"
+      multiple
+      onchange="analyzeFiles(this.files)"
+    >
+
+    <div id="fileResults" class="file-list"></div>
+
+  </div>
+
+</section>
+
+
+<section id="pricing" style="margin-top:50px">
+
+  <div class="hero" style="padding-bottom:10px">
+
+    <h2 style="font-size:38px">
+      Simple pricing
+    </h2>
+
+    <p>
+      The basic ClearSpace experience should always be useful.
+      Paid features will fund future storage and backup development.
+    </p>
+
+  </div>
+
+  <div class="price-grid">
+
+    <div class="price-card">
+
+      <h3>Free</h3>
+
+      <div class="price">$0</div>
+
+      <ul>
+        <li>✓ Storage analysis</li>
+        <li>✓ Duplicate review</li>
+        <li>✓ Large file discovery</li>
+        <li>✓ Screenshot discovery</li>
+        <li>✓ No annoying ads</li>
+      </ul>
+
+      <button class="secondary-btn" onclick="showToast('You are using the free MVP.')">
+        Current plan
+      </button>
+
+    </div>
+
+
+    <div class="price-card featured">
+
+      <h3>Plus</h3>
+
+      <div class="price">$4.99<span style="font-size:14px;color:#64748b">/month</span></div>
+
+      <ul>
+        <li>✓ Everything in Free</li>
+        <li>✓ Future Vault backup</li>
+        <li>✓ Advanced organization</li>
+        <li>✓ Recovery features</li>
+      </ul>
+
+      <button class="primary-btn" onclick="showToast('Payments will be connected in the next version.')">
+        Join waitlist
+      </button>
+
+    </div>
+
+
+    <div class="price-card">
+
+      <h3>Family</h3>
+
+      <div class="price">$9.99<span style="font-size:14px;color:#64748b">/month</span></div>
+
+      <ul>
+        <li>✓ Everything in Plus</li>
+        <li>✓ Family Vault</li>
+        <li>✓ Shared albums</li>
+        <li>✓ Document organization</li>
+      </ul>
+
+      <button class="secondary-btn" onclick="showToast('Family Vault is coming soon.')">
+        Join waitlist
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<section id="privacy" style="margin-top:70px">
+
+  <div class="card">
+
+    <h2>🔐 Your memories belong to you.</h2>
+
+    <p class="muted" style="line-height:1.7;margin-top:12px">
+
+      The current ClearSpace MVP analyzes selected files directly in your browser.
+      It does not automatically upload your personal files to a ClearSpace server.
+
+      <br><br>
+
+      We don't build the product around annoying advertising.
+      You stay in control of what you choose to remove.
+
+    </p>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<nav>
+
+  <button class="active" onclick="goHome()">🏠<br>Home</button>
+
+  <button onclick="startScan()">🧹<br>Clean</button>
+
+  <button onclick="showToast('Memories Vault is coming soon.')">❤️<br>Memories</button>
+
+  <button onclick="showToast('Vault is coming soon.')">🔐<br>Vault</button>
+
+  <button onclick="document.getElementById('privacy').scrollIntoView({behavior:'smooth'})">⚙️<br>Privacy</button>
+
+</nav>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+let selectedFiles = [];
+
+function startScan() {
+
+  document.getElementById("home").style.display = "none";
+
+  const dashboard = document.getElementById("dashboard");
+
+  dashboard.style.display = "block";
+
+  dashboard.scrollIntoView({behavior:"smooth"});
+
+  showToast("ClearSpace is ready. Choose files to analyze.");
+
+}
+
+
+function analyzeFiles(files) {
+
+  if (!files || files.length === 0) return;
+
+  selectedFiles = Array.from(files);
+
+  let totalBytes = selectedFiles.reduce((sum,file) => sum + file.size, 0);
+
+  let totalGB = totalBytes / (1024 ** 3);
+
+  let potential = totalGB * 0.22;
+
+  document.getElementById("savings").textContent =
+    potential.toFixed(2) + " GB";
+
+  document.getElementById("storageUsed").textContent =
+    Math.min(99, Math.round(40 + totalGB * 10)) + "%";
+
+  const results = document.getElementById("fileResults");
+
+  results.innerHTML = "";
+
+  selectedFiles.forEach((file,index) => {
+
+    const row = document.createElement("div");
+
+    row.className = "file-row";
+
+    row.innerHTML = `
+
+      <div class="file-info">
+
+        <div class="file-name">
+          ${escapeHtml(file.name)}
+        </div>
+
+        <div class="file-meta">
+          ${formatBytes(file.size)} • ${escapeHtml(file.type || "Unknown file")}
+        </div>
+
+      </div>
+
+      <button
+        class="delete-btn"
+        onclick="removeFile(${index})">
+        Remove
+      </button>
+
+    `;
+
+    results.appendChild(row);
+
+  });
+
+  showToast(
+    selectedFiles.length +
+    " files analyzed in your browser."
+  );
+
+}
+
+
+function removeFile(index) {
+
+  const removed = selectedFiles[index];
+
+  selectedFiles.splice(index,1);
+
+  renderFiles();
+
+  showToast(
+    removed.name + " removed from your review."
+  );
+
+}
+
+
+function renderFiles() {
+
+  const results = document.getElementById("fileResults");
+
+  results.innerHTML = "";
+
+  selectedFiles.forEach((file,index) => {
+
+    const row = document.createElement("div");
+
+    row.className = "file-row";
+
+    row.innerHTML = `
+
+      <div class="file-info">
+
+        <div class="file-name">
+          ${escapeHtml(file.name)}
+        </div>
+
+        <div class="file-meta">
+          ${formatBytes(file.size)} • ${escapeHtml(file.type || "Unknown")}
+        </div>
+
+      </div>
+
+      <button
+        class="delete-btn"
+        onclick="removeFile(${index})">
+        Remove
+      </button>
+
+    `;
+
+    results.appendChild(row);
+
+  });
+
+}
+
+
+function formatBytes(bytes) {
+
+  if (bytes === 0) return "0 Bytes";
+
+  const units = [
+    "Bytes",
+    "KB",
+    "MB",
+    "GB",
+    "TB"
+  ];
+
+  const i = Math.floor(
+    Math.log(bytes) / Math.log(1024)
+  );
+
+  return (
+    parseFloat(
+      (bytes / Math.pow(1024,i)).toFixed(2)
+    )
+    + " "
+    + units[i]
+  );
+
+}
+
+
+function showFiles(category) {
+
+  showToast(
+    category +
+    " review opened. File-level analysis will be expanded in the next version."
+  );
+
+}
+
+
+function goHome() {
+
+  document.getElementById("home").style.display = "block";
+
+  document.getElementById("dashboard").style.display = "none";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+function showToast(message) {
+
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+
+  toast.style.display = "block";
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer = setTimeout(
+    () => {
+      toast.style.display = "none";
+    },
+    3500
+  );
+
+}
+
+
+function escapeHtml(value) {
+
+  return String(value)
+
+    .replaceAll("&","&amp;")
+
+    .replaceAll("<","&lt;")
+
+    .replaceAll(">","&gt;")
+
+    .replaceAll('"',"&quot;")
+
+    .replaceAll("'","&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
