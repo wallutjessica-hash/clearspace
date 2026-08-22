@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ClaimCheck — Dental Claim Review</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+:root{
+--navy:#0f172a;
+--blue:#2563eb;
+--blue-dark:#1d4ed8;
+--green:#16a34a;
+--red:#dc2626;
+--orange:#ea580c;
+--gray:#64748b;
+--light:#f8fafc;
+--border:#e2e8f0;
+--white:#ffffff;
+}
+
+body{
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+background:var(--light);
+color:var(--navy);
+min-height:100vh;
+}
+
+header{
+background:white;
+border-bottom:1px solid var(--border);
+padding:18px 22px;
+}
+
+.header{
+max-width:1100px;
+margin:auto;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.logo{
+font-size:26px;
+font-weight:800;
+}
+
+.logo span{
+color:var(--blue);
+}
+
+.tag{
+font-size:12px;
+font-weight:700;
+background:#dbeafe;
+color:#1d4ed8;
+padding:7px 11px;
+border-radius:20px;
+}
+
+main{
+max-width:1100px;
+margin:auto;
+padding:35px 18px 80px;
+}
+
+.hero{
+text-align:center;
+padding:25px 10px 35px;
+}
+
+.hero h1{
+font-size:clamp(38px,7vw,62px);
+line-height:1.05;
+letter-spacing:-2px;
+}
+
+.hero h1 span{
+color:var(--blue);
+}
+
+.hero p{
+max-width:700px;
+margin:18px auto 0;
+font-size:18px;
+line-height:1.6;
+color:var(--gray);
+}
+
+.card{
+background:white;
+border:1px solid var(--border);
+border-radius:18px;
+padding:24px;
+margin-top:20px;
+}
+
+.notice{
+background:#eff6ff;
+border:1px solid #bfdbfe;
+color:#1e40af;
+border-radius:12px;
+padding:15px;
+line-height:1.5;
+margin-bottom:20px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+}
+
+.panel{
+background:white;
+border:1px solid var(--border);
+border-radius:16px;
+padding:22px;
+}
+
+.panel h2{
+margin-bottom:6px;
+}
+
+.muted{
+color:var(--gray);
+line-height:1.5;
+}
+
+.field{
+margin-top:16px;
+}
+
+.field label{
+display:block;
+font-weight:700;
+font-size:14px;
+margin-bottom:6px;
+}
+
+.field input{
+width:100%;
+padding:12px 13px;
+border:1px solid #cbd5e1;
+border-radius:10px;
+font:inherit;
+outline:none;
+}
+
+.field input:focus{
+border-color:var(--blue);
+box-shadow:0 0 0 3px rgba(37,99,235,.12);
+}
+
+.primary{
+display:block;
+width:100%;
+margin-top:22px;
+background:var(--blue);
+color:white;
+border:0;
+padding:15px 20px;
+border-radius:12px;
+font-weight:800;
+font-size:16px;
+cursor:pointer;
+}
+
+.primary:hover{
+background:var(--blue-dark);
+}
+
+.result{
+display:none;
+}
+
+.result-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+flex-wrap:wrap;
+}
+
+.status{
+font-weight:800;
+padding:9px 14px;
+border-radius:20px;
+}
+
+.status.good{
+background:#dcfce7;
+color:#166534;
+}
+
+.status.bad{
+background:#fee2e2;
+color:#991b1b;
+}
+
+.summary{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+margin-top:20px;
+}
+
+.stat{
+border:1px solid var(--border);
+border-radius:14px;
+padding:17px;
+}
+
+.stat-number{
+font-size:28px;
+font-weight:800;
+}
+
+.stat-label{
+color:var(--gray);
+font-size:13px;
+margin-top:4px;
+}
+
+.green{
+color:var(--green);
+}
+
+.red{
+color:var(--red);
+}
+
+.check-list{
+margin-top:20px;
+}
+
+.check{
+display:flex;
+align-items:flex-start;
+gap:12px;
+padding:15px 0;
+border-bottom:1px solid var(--border);
+}
+
+.check-icon{
+font-size:21px;
+}
+
+.check-title{
+font-weight:800;
+}
+
+.check-detail{
+color:var(--gray);
+font-size:14px;
+margin-top:4px;
+line-height:1.45;
+}
+
+.error-box{
+background:#fff7ed;
+border:1px solid #fed7aa;
+color:#9a3412;
+border-radius:12px;
+padding:15px;
+margin-top:20px;
+line-height:1.5;
+}
+
+.success-box{
+background:#f0fdf4;
+border:1px solid #bbf7d0;
+color:#166534;
+border-radius:12px;
+padding:15px;
+margin-top:20px;
+line-height:1.5;
+}
+
+footer{
+text-align:center;
+color:var(--gray);
+font-size:13px;
+padding:30px 15px;
+}
+
+@media(max-width:750px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+.summary{
+grid-template-columns:1fr;
+}
+
+main{
+padding:20px 14px 60px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="header">
+
+<div class="logo">
+Claim<span>Check</span>
+</div>
+
+<div class="tag">
+DENTAL CLAIM REVIEW
+</div>
+
+</div>
+
+</header>
+
+<main>
+
+<section class="hero">
+
+<h1>
+Check before you<br>
+<span>submit.</span>
+</h1>
+
+<p>
+ClaimCheck compares patient and insurance information
+to help your dental team find discrepancies before a claim is submitted.
+</p>
+
+</section>
+
+
+<div class="notice">
+
+<strong>🔐 Prototype mode</strong><br>
+
+This demonstration uses sample information only.
+Do not enter real patient or insurance information.
+
+</div>
+
+
+<div class="grid">
+
+
+<div class="panel">
+
+<h2>📋 Source Record</h2>
+
+<p class="muted">
+Information from the patient/insurance record.
+</p>
+
+
+<div class="field">
+
+<label>Patient Name</label>
+
+<input
+id="sourceName"
+value="Jane Smith"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Date of Birth</label>
+
+<input
+id="sourceDob"
+value="04/12/1985"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Member ID</label>
+
+<input
+id="sourceMember"
+value="ABC123456"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Group Number</label>
+
+<input
+id="sourceGroup"
+value="78910"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Subscriber Name</label>
+
+<input
+id="sourceSubscriber"
+value="John Smith"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Relationship</label>
+
+<input
+id="sourceRelationship"
+value="Spouse"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Insurance / Payer</label>
+
+<input
+id="sourceInsurance"
+value="Example Dental Insurance"
+>
+
+</div>
+
+</div>
+
+
+<div class="panel">
+
+<h2>📝 Claim Information</h2>
+
+<p class="muted">
+Information entered for the claim.
+</p>
+
+
+<div class="field">
+
+<label>Patient Name</label>
+
+<input
+id="claimName"
+value="Jane Smith"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Date of Birth</label>
+
+<input
+id="claimDob"
+value="04/12/1985"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Member ID</label>
+
+<input
+id="claimMember"
+value="ABC123465"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Group Number</label>
+
+<input
+id="claimGroup"
+value="78910"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Subscriber Name</label>
+
+<input
+id="claimSubscriber"
+value="John Smith"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Relationship</label>
+
+<input
+id="claimRelationship"
+value="Child"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>Insurance / Payer</label>
+
+<input
+id="claimInsurance"
+value="Example Dental Insurance"
+>
+
+</div>
+
+</div>
+
+</div>
+
+
+<button class="primary" onclick="checkClaim()">
+🔎 CHECK CLAIM
+</button>
+
+
+<section id="result" class="card result">
+
+<div class="result-header">
+
+<div>
+
+<h2>ClaimCheck Results</h2>
+
+<p class="muted">
+Comparison completed.
+</p>
+
+</div>
+
+<div id="status" class="status bad">
+CLAIM NOT READY
+</div>
+
+</div>
+
+
+<div class="summary">
+
+<div class="stat">
+
+<div
+class="stat-number red"
+id="errorCount"
+>
+0
+</div>
+
+<div class="stat-label">
+Items needing attention
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div
+class="stat-number green"
+id="matchCount"
+>
+0
+</div>
+
+<div class="stat-label">
+Items matched
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div
+class="stat-number"
+id="totalChecks"
+>
+0
+</div>
+
+<div class="stat-label">
+Total checks
+</div>
+
+</div>
+
+</div>
+
+
+<div id="message"></div>
+
+
+<div class="check-list" id="checkList"></div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+ClaimCheck © 2026 · Prototype for dental claim review
+
+</footer>
+
+
+<script>
+
+function normalize(value){
+
+return String(value)
+.trim()
+.toLowerCase()
+.replace(/\s+/g," ");
+
+}
+
+
+function compareField(
+label,
+sourceId,
+claimId
+){
+
+const source=
+document.getElementById(sourceId).value;
+
+const claim=
+document.getElementById(claimId).value;
+
+const match=
+normalize(source)===normalize(claim);
+
+return{
+label:label,
+source:source,
+claim:claim,
+match:match
+};
+
+}
+
+
+function checkClaim(){
+
+const checks=[
+
+compareField(
+"Patient Name",
+"sourceName",
+"claimName"
+),
+
+compareField(
+"Date of Birth",
+"sourceDob",
+"claimDob"
+),
+
+compareField(
+"Member ID",
+"sourceMember",
+"claimMember"
+),
+
+compareField(
+"Group Number",
+"sourceGroup",
+"claimGroup"
+),
+
+compareField(
+"Subscriber Name",
+"sourceSubscriber",
+"claimSubscriber"
+),
+
+compareField(
+"Relationship",
+"sourceRelationship",
+"claimRelationship"
+),
+
+compareField(
+"Insurance / Payer",
+"sourceInsurance",
+"claimInsurance"
+)
+
+];
+
+
+const errors=
+checks.filter(check=>!check.match);
+
+const matches=
+checks.filter(check=>check.match);
+
+
+document.getElementById(
+"errorCount"
+).textContent=errors.length;
+
+
+document.getElementById(
+"matchCount"
+).textContent=matches.length;
+
+
+document.getElementById(
+"totalChecks"
+).textContent=checks.length;
+
+
+const status=
+document.getElementById("status");
+
+
+const message=
+document.getElementById("message");
+
+
+if(errors.length===0){
+
+status.textContent=
+"CLAIM READY";
+
+status.className=
+"status good";
+
+message.innerHTML=`
+
+<div class="success-box">
+
+<strong>🟢 No discrepancies detected.</strong><br>
+
+All checked fields match the source record.
+
+</div>
+
+`;
+
+}else{
+
+status.textContent=
+"CLAIM NOT READY";
+
+status.className=
+"status bad";
+
+message.innerHTML=`
+
+<div class="error-box">
+
+<strong>🔴 ${errors.length} item(s) need attention.</strong><br>
+
+Review the highlighted discrepancies before submitting the claim.
+
+</div>
+
+`;
+
+}
+
+
+const list=
+document.getElementById("checkList");
+
+list.innerHTML="";
+
+
+checks.forEach(check=>{
+
+const row=
+document.createElement("div");
+
+row.className="check";
+
+
+const icon=
+document.createElement("div");
+
+icon.className="check-icon";
+
+icon.textContent=
+check.match ? "✅" : "🔴";
+
+
+const body=
+document.createElement("div");
+
+
+const title=
+document.createElement("div");
+
+title.className="check-title";
+
+title.textContent=
+check.label+
+(check.match ? " — Match" : " — DOES NOT MATCH");
+
+
+const detail=
+document.createElement("div");
+
+detail.className="check-detail";
+
+
+if(check.match){
+
+detail.textContent=
+"Source: "+
+check.source+
+" · Claim: "+
+check.claim;
+
+}else{
+
+detail.textContent=
+"Source: "+
+check.source+
+" · Claim: "+
+check.claim;
+
+}
+
+
+body.appendChild(title);
+
+body.appendChild(detail);
+
+row.appendChild(icon);
+
+row.appendChild(body);
+
+list.appendChild(row);
+
+});
+
+
+const result=
+document.getElementById("result");
+
+result.style.display="block";
+
+result.scrollIntoView({
+behavior:"smooth",
+block:"start"
+});
+
+}
+
+</script>
+
+</body>
+</html>
